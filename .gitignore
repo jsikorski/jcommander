@@ -5,9 +5,7 @@
 *.war
 *.ear
 
-.project
 .settings
-.classpath
 .gradle
 
 build
