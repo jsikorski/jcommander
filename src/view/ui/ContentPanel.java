@@ -2,8 +2,6 @@ package view.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Label;
 
 import javax.swing.JPanel;
 
@@ -17,8 +15,10 @@ public class ContentPanel extends JPanel {
 		setBackground(Color.red);
 		
 		Toolbar toolbar = new Toolbar();
-		toolbar.setPreferredSize(new Dimension(0, 30));
-		
+		toolbar.pack();
 		add(toolbar, BorderLayout.NORTH);
+		
+		Footer footer = new Footer();
+		add(footer, BorderLayout.SOUTH);
 	}
 }

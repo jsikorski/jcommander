@@ -6,9 +6,9 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Insets;
 
-public class ExtensibleFlowLayout extends FlowLayout {
-	public ExtensibleFlowLayout(int align) {
-		super(align);
+public class FlexibleFlowLayout extends FlowLayout {
+	public FlexibleFlowLayout(int align, int hgap, int vgap) {
+		super(align, hgap, vgap);
 	}
 	
 	@Override
@@ -46,8 +46,8 @@ public class ExtensibleFlowLayout extends FlowLayout {
 	        }
 	        Insets insets = target.getInsets();          
 	        dim.width += insets.left + insets.right + getHgap() *2;
-	        
-	        int numOfRows = (int) Math.ceil(dim.width / target.getWidth());
+	       
+	        int numOfRows = target.getWidth() == 0 ? 0 : (int) Math.ceil(dim.width / target.getWidth());
 	        dim.height += dim.height * numOfRows + numOfRows * getVgap();
 	         	        
 	        dim.height += insets.top + insets.bottom + getVgap() *2;

@@ -1,5 +1,6 @@
 package view.ui;
 
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -8,10 +9,12 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import view.localization.Localization;
+import view.utils.FlexibleFlowLayout;
 
 public class MenuBar extends JMenuBar {
 	
 	public MenuBar() {
+		setLayout(new FlexibleFlowLayout(FlowLayout.LEADING, 1, 1));
 		initializeComponents();
 	}
 	
@@ -21,6 +24,15 @@ public class MenuBar extends JMenuBar {
 		
 		JMenu languagesMenu = createLanguagesMenu();
 		add(languagesMenu);
+		
+		add(createEmptyMenu("MenuBar_Select"));
+		add(createEmptyMenu("MenuBar_Commands"));
+		add(createEmptyMenu("MenuBar_Network"));
+		add(createEmptyMenu("MenuBar_View"));
+		add(createEmptyMenu("MenuBar_Configuration"));
+		add(createEmptyMenu("MenuBar_Start"));
+		
+		add(createEmptyMenu("MenuBar_Help"));
 	}
 	
 	private JMenu createFileMenu() {
@@ -43,7 +55,7 @@ public class MenuBar extends JMenuBar {
 	}
 	
 	private JMenu createLanguagesMenu() {
-		final JMenu languagesMenu = new JMenu();
+		JMenu languagesMenu = new JMenu();
 		Localization.setTextFor(languagesMenu, "MenuBar_Language");
 		
 		for (String language : Localization.getSupportedLanguages()) {
@@ -55,7 +67,7 @@ public class MenuBar extends JMenuBar {
 	}
 
 	private JMenuItem createLanguageItem(final String language) {
-		final JMenuItem langItem = new JMenuItem();
+		JMenuItem langItem = new JMenuItem();
 		Localization.setTextFor(langItem, "MenuBar_Languages_" + language);
 		
 		langItem.addActionListener(new ActionListener() {
@@ -66,5 +78,11 @@ public class MenuBar extends JMenuBar {
 		});
 		
 		return langItem;
+	}
+	
+	private JMenu createEmptyMenu(String localizationKey) {
+		JMenu menu = new JMenu();
+		Localization.setTextFor(menu, localizationKey);
+		return menu;
 	}
 }

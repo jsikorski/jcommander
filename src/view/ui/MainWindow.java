@@ -11,9 +11,6 @@ public class MainWindow extends JFrame {
 		Localization.setTextFor(this, "Common_Title", "setTitle");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		Dimension size = new Dimension(500, 500);
-		setSize(size);
-		
 		initializeComponents();
 	}
 	

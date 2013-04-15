@@ -39,8 +39,10 @@ public class Localization {
 			final String key, 
 			final String methodName) {
 	
+		final Method method;
+		
 		try {
-			final Method method = target.getClass().getMethod(methodName, String.class);
+			method = target.getClass().getMethod(methodName, String.class);
 			method.invoke(target, new Object[] { get(key) });
 			
 			addChangeListener(new ContextChangeListener() {
