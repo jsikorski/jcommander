@@ -16,6 +16,7 @@ import model.ListingContext;
 
 import commands.Close;
 import commands.CreateDirectory;
+import commands.Delete;
 
 import view.localization.Localization;
 
@@ -50,7 +51,7 @@ public class Footer extends JPanel {
 				}
 				
 				ListingContext listingContext = ApplicationContext.getActiveListingContext();
-				CommandsInvoker.invoke(new CreateDirectory(listingContext, newName));
+				CommandsInvoker.invoke(new CreateDirectory(listingContext.getCurrentPath(), newName));
 			}
 		};
 		
@@ -68,7 +69,15 @@ public class Footer extends JPanel {
 				}
 				
 				ListingContext listingContext = ApplicationContext.getActiveListingContext();
-				CommandsInvoker.invoke(new CreateDirectory(listingContext, dirName));
+				CommandsInvoker.invoke(new CreateDirectory(listingContext.getCurrentPath(), dirName));
+			}
+		};
+		
+		ActionListener deleteActionListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ListingContext listingContext = ApplicationContext.getActiveListingContext();
+				CommandsInvoker.invoke(new Delete(listingContext.getSelectedFiles()));
 			}
 		};
 		
@@ -78,7 +87,7 @@ public class Footer extends JPanel {
 			moveRenameActionListener,
 			emptyActionListener,
 			createDirActionListener,
-			emptyActionListener
+			deleteActionListener
 		};
 		
 		for (int i = 3; i < 9; i++) {

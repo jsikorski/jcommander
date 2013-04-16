@@ -1,7 +1,5 @@
 package infrastructure;
 
-import java.awt.TrayIcon.MessageType;
-
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
@@ -25,6 +23,8 @@ public class CommandsInvoker {
 		try {
 			command.execute();
 		} catch (Exception e) {
+			
+			e.printStackTrace();
 			
 			String message; 
 			

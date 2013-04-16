@@ -29,7 +29,6 @@ public class DirectoryContent extends JTable implements EventHandler {
 		this.listingContext = listingContext;
 		
 		directoryContentModel = new DirectoryContentModel(listingContext);
-		setBackground(Color.WHITE);
 		setModel(directoryContentModel);
 		setShowGrid(false);
 		

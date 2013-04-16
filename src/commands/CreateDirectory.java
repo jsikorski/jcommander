@@ -2,18 +2,20 @@ package commands;
 
 import java.io.File;
 
+import model.ApplicationContext;
 import model.ListingContext;
+import events.DirectoryChanged;
 import exceptions.CreateDirectoryFailureException;
 import exceptions.DirectoryAlreadyExistsException;
 import exceptions.DirectoryNameEmptyException;
 
 public class CreateDirectory implements Command {
 
-	private ListingContext listingContext;
 	private String name;
+	private String baseDir;
 	
-	public CreateDirectory(ListingContext listingContext, String name) {
-		this.listingContext = listingContext;
+	public CreateDirectory(String baseDir, String name) {
+		this.baseDir = baseDir;
 		this.name = name;
 	}
 	
@@ -23,9 +25,7 @@ public class CreateDirectory implements Command {
 			throw new DirectoryNameEmptyException();
 		}
 		
-		String path = listingContext.getCurrentPath();
-		
-		File directory = new File(path, name);
+		File directory = new File(baseDir, name);
 		if (directory.exists()) {
 			throw new DirectoryAlreadyExistsException();
 		}
@@ -35,7 +35,7 @@ public class CreateDirectory implements Command {
 			throw new CreateDirectoryFailureException();
 		}
 		
-		new ChangeDirectory(listingContext, path).execute();
+		ApplicationContext.publishForContextsInDir(baseDir, new DirectoryChanged(baseDir));
 	}
 
 }

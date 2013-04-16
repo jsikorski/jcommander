@@ -20,6 +20,9 @@ public class ContentPanel extends JSplitPane {
 		ListingContext leftListingContext = new ListingContext();
 		ListingContext rightListingContext = new ListingContext();
 		
+		ApplicationContext.setListingContexts(
+				new ListingContext[] {leftListingContext, rightListingContext });
+		
 		ListingPanel left = new ListingPanel(leftListingContext);
 		ListingPanel right = new ListingPanel(rightListingContext);
 		

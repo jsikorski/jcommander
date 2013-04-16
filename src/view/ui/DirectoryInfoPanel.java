@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 import events.DirectoryChanged;
 import events.Event;
@@ -40,7 +41,7 @@ public class DirectoryInfoPanel extends JPanel implements EventHandler {
 		add(directoryLabel, BorderLayout.NORTH);
 		
 		JScrollPane scrollPane = new JScrollPane(new DirectoryContent(listingContext));
-		scrollPane.getViewport().setBackground(Color.WHITE);
+		scrollPane.getViewport().setBackground(UIManager.getColor("Table.background"));
 		add(scrollPane, BorderLayout.CENTER);
 	}
 

@@ -23,7 +23,7 @@ public class ListingContext {
 		this.currentPath = currentPath;
 		
 		File[] newContent = FilesHelper.getContentOf(new File(currentPath));
-		this.getEventAggregator().publish(new DirectoryChanged(currentPath, newContent));
+		this.getEventAggregator().publish(new DirectoryChanged(currentPath));
 	}
 
 	public String getRootPath() {

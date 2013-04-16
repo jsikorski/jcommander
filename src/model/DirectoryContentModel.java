@@ -37,6 +37,9 @@ public class DirectoryContentModel extends DefaultTableModel implements EventHan
 	}
 	
 	private void updateContent(File[] newContent) {
+		selectedRowsIndexes.clear();
+		listingContext.setSelectedFiles(new ArrayList<File>());
+		
 		content = new ArrayList<>(Arrays.asList(newContent));
 		contentMap = DirectoryContentHelper.buildMapFor(newContent);
 		
@@ -109,7 +112,6 @@ public class DirectoryContentModel extends DefaultTableModel implements EventHan
 	}
 
 	public void navigateTo(int rowNumber) {
-		selectedRowsIndexes.clear();		
 		if (content.get(rowNumber).isDirectory()) {
 			CommandsInvoker.invoke(new ChangeDirectory(listingContext, content.get(rowNumber).getPath()));
 		}
