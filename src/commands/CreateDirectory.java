@@ -4,7 +4,8 @@ import java.io.File;
 import java.nio.file.FileAlreadyExistsException;
 
 import exceptions.CreateDirectoryFailureException;
-import exceptions.FileNameEmptyException;
+import exceptions.DirectoryAlreadyExistsException;
+import exceptions.DirectoryNameEmptyException;
 
 import model.ListingContext;
 
@@ -21,14 +22,14 @@ public class CreateDirectory implements Command {
 	@Override
 	public void execute() throws Exception {
 		if (name.equals("")) {
-			throw new FileNameEmptyException();
+			throw new DirectoryNameEmptyException();
 		}
 		
 		String path = listingContext.getCurrentPath();
 		
 		File directory = new File(path, name);
 		if (directory.exists()) {
-			throw new FileAlreadyExistsException(name);
+			throw new DirectoryAlreadyExistsException();
 		}
 		
 		boolean success = directory.mkdir();

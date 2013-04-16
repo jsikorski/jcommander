@@ -1,5 +1,14 @@
 package infrastructure;
 
+import java.awt.TrayIcon.MessageType;
+
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+
+import view.localization.Localization;
+
+import model.ApplicationContext;
+
 import commands.Command;
 
 public class CommandsInvoker {
@@ -7,11 +16,7 @@ public class CommandsInvoker {
 		new Thread() {
 			@Override
 			public void run() {
-				try {
-					execute(command);
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
+				execute(command);
 			}
 		}.start();
 	}
@@ -20,8 +25,28 @@ public class CommandsInvoker {
 		try {
 			command.execute();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
+			String message; 
+			
+			try {
+				String exceptionName = e.getClass().getSimpleName().replace("Exception", "");
+				message = Localization.get("ErrorMessage_" + exceptionName); 
+			} catch (Exception e2) {
+				message = Localization.get("ErrorMessage_Unknown");
+			}
+			
+			final String errorMessage = message;
+			final String title = Localization.get("Common_Error");
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					JOptionPane.showMessageDialog(
+							ApplicationContext.getMainWindow(), 
+							errorMessage, 
+							title, 
+							JOptionPane.ERROR_MESSAGE);
+				}
+			});
 		}
 	}
 }
