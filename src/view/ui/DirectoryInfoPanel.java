@@ -40,6 +40,7 @@ public class DirectoryInfoPanel extends JPanel implements EventHandler {
 		add(directoryLabel, BorderLayout.NORTH);
 		
 		JScrollPane scrollPane = new JScrollPane(new DirectoryContent(listingContext));
+		scrollPane.getViewport().setBackground(Color.WHITE);
 		add(scrollPane, BorderLayout.CENTER);
 	}
 
