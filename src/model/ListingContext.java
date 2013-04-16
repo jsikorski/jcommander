@@ -1,6 +1,7 @@
 package model;
 
 import java.io.File;
+import java.util.List;
 
 import events.DirectoryChanged;
 import infrastructure.EventAggregator;
@@ -8,6 +9,7 @@ import infrastructure.EventAggregator;
 public class ListingContext {
 	private String currentPath;
 	private EventAggregator eventAggregator;
+	private List<File> selectedFiles;
 	
 	public ListingContext() {
 		this.eventAggregator = new EventAggregator();
@@ -54,5 +56,17 @@ public class ListingContext {
 
 	public boolean inRootDirectory() {
 		return getCurrentPath().equals(getRootPath());
+	}
+
+	public void toggleSelectionFor(int row) {
+		// TODO Auto-generated method stub
+	}
+
+	public List<File> getSelectedFiles() {
+		return selectedFiles;
+	}
+
+	public void setSelectedFiles(List<File> selectedFiles) {
+		this.selectedFiles = selectedFiles;
 	}
 }

@@ -28,6 +28,32 @@ public class Footer extends JPanel {
 
 	private void initializeComponents() {
 		
+		ActionListener emptyActionListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		};
+		
+		ActionListener moveRenameActionListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String newName = JOptionPane.showInputDialog(
+						ApplicationContext.getMainWindow(), 
+						Localization.get("Edit_Name"), 
+						Localization.get("Edit_Header"), 
+						JOptionPane.QUESTION_MESSAGE);
+				
+				if (newName == null) {
+					return;
+				}
+				
+				ListingContext listingContext = ApplicationContext.getActiveListingContext();
+				CommandsInvoker.invoke(new CreateDirectory(listingContext, newName));
+			}
+		};
+		
 		ActionListener createDirActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -46,10 +72,17 @@ public class Footer extends JPanel {
 			}
 		};
 		
-		
+		ActionListener[] actionListeners = new ActionListener[] {
+			emptyActionListener,
+			emptyActionListener,
+			moveRenameActionListener,
+			emptyActionListener,
+			createDirActionListener,
+			emptyActionListener
+		};
 		
 		for (int i = 3; i < 9; i++) {
-			add(createButton("Footer_F" + i, createDirActionListener));
+			add(createButton("Footer_F" + i, actionListeners[i - 3]));
 		}
 		
 		ActionListener closeActionListener = new ActionListener() {

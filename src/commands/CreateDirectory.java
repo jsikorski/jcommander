@@ -1,13 +1,11 @@
 package commands;
 
 import java.io.File;
-import java.nio.file.FileAlreadyExistsException;
 
+import model.ListingContext;
 import exceptions.CreateDirectoryFailureException;
 import exceptions.DirectoryAlreadyExistsException;
 import exceptions.DirectoryNameEmptyException;
-
-import model.ListingContext;
 
 public class CreateDirectory implements Command {
 
@@ -21,7 +19,7 @@ public class CreateDirectory implements Command {
 	
 	@Override
 	public void execute() throws Exception {
-		if (name.equals("")) {
+		if (name.isEmpty()) {
 			throw new DirectoryNameEmptyException();
 		}
 		

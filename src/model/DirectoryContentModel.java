@@ -20,9 +20,11 @@ import events.Event;
 
 public class DirectoryContentModel extends DefaultTableModel implements EventHandler {
 	
+	private final Class[] columnsTypes = new Class[] { String.class, Long.class, String.class };
+	
 	private List<File> content;
 	private List<Object[]> contentMap;
-	private final Class[] columnsTypes = new Class[] { String.class, Long.class, String.class };
+	private List<Integer> selectedRowsIndexes = new ArrayList<>();
 	
 	private ListingContext listingContext;
 	
@@ -107,8 +109,40 @@ public class DirectoryContentModel extends DefaultTableModel implements EventHan
 	}
 
 	public void navigateTo(int rowNumber) {
+		selectedRowsIndexes.clear();		
 		if (content.get(rowNumber).isDirectory()) {
 			CommandsInvoker.invoke(new ChangeDirectory(listingContext, content.get(rowNumber).getPath()));
 		}
+	}
+
+	public synchronized boolean toggleSelectionFor(int row) {
+		if (content.get(row).getPath().equals("..")) {
+			return false;
+		}
+		
+		boolean selected;
+		
+		if (selectedRowsIndexes.contains(row)) {
+			selectedRowsIndexes.remove(new Integer(row));
+			selected = false;
+		}
+		else {
+			selectedRowsIndexes.add(row);
+			selected = true;
+		}
+		
+		List<File> selectedFiles = new ArrayList<>();
+		for (int rowIndex : selectedRowsIndexes) {
+			selectedFiles.add(content.get(rowIndex));
+		}
+		listingContext.setSelectedFiles(selectedFiles);
+		
+		fireTableRowsUpdated(row, row);
+		
+		return selected;
+	}
+	
+	public List<Integer> getSelectedRowsIndexes() {
+		return selectedRowsIndexes;
 	}
 }
