@@ -11,10 +11,13 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.JToolBar;
+import javax.swing.SwingConstants;
 
 import view.utils.FlexibleFlowLayout;
 
-public class Toolbar extends JPanel {
+public class Toolbar extends JToolBar {
 
 	private static final int ICON_SIZE = 30;
 	private static final int BUTTON_SIZE = ICON_SIZE + 2;	
@@ -23,38 +26,44 @@ public class Toolbar extends JPanel {
 	private static final String GRAPHICS_REFRESH = "graphics/refresh.png";
 
 	public Toolbar() {
-		setLayout(new FlexibleFlowLayout(FlowLayout.LEADING, ICONS_MARGIN, ICONS_MARGIN));		
+		setLayout(new FlexibleFlowLayout(FlowLayout.LEADING, ICONS_MARGIN, ICONS_MARGIN));
+		setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, Color.GRAY));
 		initializeComponents();
 	}
 	
 	private void initializeComponents() {
 		addButton(GRAPHICS_REFRESH);
+		JSeparator jSeparator = new JSeparator(SwingConstants.VERTICAL);
+		jSeparator.setBorder(BorderFactory.createLineBorder(Color.RED));
+		jSeparator.setPreferredSize(new Dimension(5, getHeight()));
+		add(jSeparator);
+		addButton(GRAPHICS_REFRESH);
 	}
 	
 	private void addButton(String imagePath) {
 		Icon icon = new ImageIcon(imagePath);	
-		final JButton refreshButton = new JButton(icon);
+		final JButton button = new JButton(icon);
 		
-		refreshButton.setPreferredSize(new Dimension(BUTTON_SIZE, BUTTON_SIZE));
-		refreshButton.setBorderPainted(false);
-		refreshButton.setContentAreaFilled(false);
+		button.setPreferredSize(new Dimension(BUTTON_SIZE, BUTTON_SIZE));
+		button.setBorderPainted(false);
+		button.setContentAreaFilled(false);
 		
-		refreshButton.addMouseListener(new MouseAdapter() {
+		button.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				refreshButton.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
-				refreshButton.setBorderPainted(true);
-				refreshButton.setContentAreaFilled(true);
+				button.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+				button.setBorderPainted(true);
+				button.setContentAreaFilled(true);
 			}
 			
 			@Override
 			public void mouseExited(MouseEvent e) {
-				refreshButton.setBorderPainted(false);
-				refreshButton.setContentAreaFilled(false);
+				button.setBorderPainted(false);
+				button.setContentAreaFilled(false);
 			}
 		});
 		
-		add(refreshButton);
+		add(button);
 	}
 	
 	public void pack() {

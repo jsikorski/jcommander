@@ -1,20 +1,22 @@
 package view.ui;
 
-import java.awt.FlowLayout;
+import infrastructure.CommandsInvoker;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Box;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import view.localization.Localization;
-import view.utils.FlexibleFlowLayout;
+
+import commands.Close;
 
 public class MenuBar extends JMenuBar {
 	
 	public MenuBar() {
-		setLayout(new FlexibleFlowLayout(FlowLayout.LEADING, 1, 1));
 		initializeComponents();
 	}
 	
@@ -32,6 +34,8 @@ public class MenuBar extends JMenuBar {
 		add(createEmptyMenu("MenuBar_Configuration"));
 		add(createEmptyMenu("MenuBar_Start"));
 		
+		add(Box.createHorizontalGlue());
+		
 		add(createEmptyMenu("MenuBar_Help"));
 	}
 	
@@ -45,7 +49,7 @@ public class MenuBar extends JMenuBar {
 		closeItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
+				CommandsInvoker.execute(new Close());
 			}
 		});
 		

@@ -1,24 +1,27 @@
 package view.ui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
+import infrastructure.EventAggregator;
 
-import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 
-public class ContentPanel extends JPanel {	
+import model.ListingContext;
+
+public class ContentPanel extends JSplitPane {	
 	public ContentPanel() {
-		setLayout(new BorderLayout());
+		setOrientation(JSplitPane.HORIZONTAL_SPLIT);
+		setDividerLocation(0.5);
+		setResizeWeight(0.5);
+        setContinuousLayout(true);
+        
 		initializeComponents();
 	}
 	
 	private void initializeComponents() {
-		setBackground(Color.red);
+				
+		ListingPanel left = new ListingPanel(new ListingContext(), new EventAggregator());
+		ListingPanel right = new ListingPanel(new ListingContext(), new EventAggregator());
 		
-		Toolbar toolbar = new Toolbar();
-		toolbar.pack();
-		add(toolbar, BorderLayout.NORTH);
-		
-		Footer footer = new Footer();
-		add(footer, BorderLayout.SOUTH);
+		add(left, JSplitPane.LEFT);
+		add(right, JSplitPane.RIGHT);
 	}
 }
