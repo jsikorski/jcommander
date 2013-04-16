@@ -5,12 +5,12 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 public class FilesHelper {
-	public static File[] listFor(File file) {		
-		if (!(file.isDirectory())) {
+	public static File[] getContentOf(File directory) {		
+		if (!(directory.isDirectory())) {
 			throw new IllegalArgumentException();
 		}
 		
-		File[] content = file.listFiles(new FilesAndDirsFilter());
+		File[] content = directory.listFiles(new FilesAndDirsFilter());
 		Arrays.sort(content, new Comparator<File>() {
 			@Override
 			public int compare(File f1, File f2) {
@@ -27,5 +27,9 @@ public class FilesHelper {
 		});
 		
 		return content;
+	}
+	
+	public static boolean isRoot(File file) {
+		return file.toPath().endsWith(":"); 
 	}
 }

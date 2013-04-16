@@ -4,6 +4,9 @@ import infrastructure.CommandsInvoker;
 import infrastructure.EventHandler;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
@@ -17,8 +20,8 @@ import events.Event;
 
 public class DirectoryContentModel extends DefaultTableModel implements EventHandler {
 	
-	private File[] content;
-	private Object[][] contentMap;
+	private List<File> content;
+	private List<Object[]> contentMap;
 	private final Class[] columnsTypes = new Class[] { String.class, Long.class, String.class };
 	
 	private ListingContext listingContext;
@@ -26,14 +29,26 @@ public class DirectoryContentModel extends DefaultTableModel implements EventHan
 	public DirectoryContentModel(ListingContext listingContext) {
 		this.listingContext = listingContext;
 		File currentDir = new File(listingContext.getCurrentPath());
-		updateContent(FilesHelper.listFor(currentDir));
+		updateContent(FilesHelper.getContentOf(currentDir));
 		
 		listingContext.getEventAggregator().subscribe(this, new Class[] { DirectoryChanged.class });
 	}
 	
 	private void updateContent(File[] newContent) {
-		content = newContent;
+		content = new ArrayList<>(Arrays.asList(newContent));
 		contentMap = DirectoryContentHelper.buildMapFor(newContent);
+		
+		if (listingContext.inRootDirectory()) {
+			return;
+		}
+		
+		content.add(0, new File(listingContext.getUpperLevelPath()) {
+			@Override
+			public boolean isDirectory() {
+				return true;
+			}
+		});
+		contentMap.add(0, new Object[] {"..", "", ""});
 	}
 	
 	@Override
@@ -56,7 +71,7 @@ public class DirectoryContentModel extends DefaultTableModel implements EventHan
 	
 	@Override
 	public int getColumnCount() {
-		return 3;
+		return columnsTypes.length;
 	}
 
 	@Override
@@ -65,12 +80,12 @@ public class DirectoryContentModel extends DefaultTableModel implements EventHan
 			return 0;
 		}
 		
-		return contentMap.length;
+		return contentMap.size();
 	}
 
 	@Override
 	public Object getValueAt(int row, int column) {
-		return contentMap[row][column];
+		return contentMap.get(row)[column];
 	}
 	
 	@Override
@@ -92,8 +107,8 @@ public class DirectoryContentModel extends DefaultTableModel implements EventHan
 	}
 
 	public void navigateTo(int rowNumber) {
-		if (content[rowNumber].isDirectory()) {
-			CommandsInvoker.invoke(new ChangeDirectory(listingContext, content[rowNumber].getPath()));
+		if (content.get(rowNumber).isDirectory()) {
+			CommandsInvoker.invoke(new ChangeDirectory(listingContext, content.get(rowNumber).getPath()));
 		}
 	}
 }

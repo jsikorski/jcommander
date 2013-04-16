@@ -4,27 +4,33 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.attribute.BasicFileAttributeView;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DirectoryContentHelper {
-	public static Object[][] buildMapFor(File[] files) {
-		Object[][] result = new Object[files.length][3];
+	public static List<Object[]> buildMapFor(File[] files) {
+		List<Object[]> result = new ArrayList<>();
 		
-		for (int i = 0; i < files.length; i++) {
+		for (int i = 0; i < files.length; i++) {	
 			File file = files[i];
-			result[i][0] = file.getName();
+			Object[] fileInfo = new Object[3];
+			
+			fileInfo[0] = file.getName();
 			
 			if (file.isDirectory()) {
-				result[i][1] = "<DIR>";
+				fileInfo[1] = "<DIR>";
 			}
 			else {
-				result[i][1] = file.length() / 1024;
+				fileInfo[1] = file.length() / 1024;
 			}
 			
 			try {
-				result[i][2] = Files.getFileAttributeView(file.toPath(), BasicFileAttributeView.class).readAttributes().creationTime().toString();
+				fileInfo[2] = Files.getFileAttributeView(file.toPath(), BasicFileAttributeView.class).readAttributes().creationTime().toString();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			
+			result.add(fileInfo);
 		}
 		
 		return result;

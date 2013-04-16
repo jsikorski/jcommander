@@ -20,7 +20,7 @@ public class ListingContext {
 	public void setCurrentPath(String currentPath) {
 		this.currentPath = currentPath;
 		
-		File[] newContent = FilesHelper.listFor(new File(currentPath));
+		File[] newContent = FilesHelper.getContentOf(new File(currentPath));
 		this.getEventAggregator().publish(new DirectoryChanged(currentPath, newContent));
 	}
 
@@ -29,7 +29,7 @@ public class ListingContext {
 	}
 
 	public String getUpperLevelPath() {		
-		if (getCurrentPath().equals(getRootPath())) {
+		if (inRootDirectory()) {
 			return getRootPath();
 		}
 		else {
@@ -50,5 +50,9 @@ public class ListingContext {
 
 	public EventAggregator getEventAggregator() {
 		return eventAggregator;
+	}
+
+	public boolean inRootDirectory() {
+		return getCurrentPath().equals(getRootPath());
 	}
 }
