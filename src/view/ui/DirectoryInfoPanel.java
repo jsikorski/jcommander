@@ -32,7 +32,7 @@ public class DirectoryInfoPanel extends JPanel implements EventHandler {
 	}
 
 	private void initializeComponents() {
-		directoryLabel = new JLabel(listingContext.getCurrentPath() + "*.*");
+		directoryLabel = new JLabel(getDirectoryLabelTextFor(listingContext.getCurrentPath()));
 		directoryLabel.setBackground(Color.BLUE);
 		directoryLabel.setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 0));
 		directoryLabel.setOpaque(true);
@@ -43,12 +43,22 @@ public class DirectoryInfoPanel extends JPanel implements EventHandler {
 		add(scrollPane, BorderLayout.CENTER);
 	}
 
+	private String getDirectoryLabelTextFor(String path) {
+		if (path.endsWith("\\")) {
+			return path + "*.*";
+		}
+		else {
+			return path + "\\*.*";
+		}
+	}
+	
 	@Override
 	public void handle(final Event event) {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				directoryLabel.setText(((DirectoryChanged) event).getPath() + "*.*");
+				String newPath = ((DirectoryChanged) event).getPath();
+				directoryLabel.setText(getDirectoryLabelTextFor(newPath));
 			}
 		});
 	}

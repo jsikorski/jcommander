@@ -4,6 +4,7 @@ import infrastructure.CommandsInvoker;
 import infrastructure.EventAggregator;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -78,6 +79,7 @@ public class DrivesInfoToolbar extends JPanel {
 		driveDescription = new JLabel();
 		setDriveDescription(selectedItem);
 		driveDescription.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
+		driveDescription.setMinimumSize(new Dimension(0, 0));
 		add(driveDescription, BorderLayout.CENTER);
 	}
 	

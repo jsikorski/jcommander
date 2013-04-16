@@ -1,5 +1,7 @@
 package model;
 
+import java.io.File;
+
 import events.DirectoryChanged;
 import infrastructure.EventAggregator;
 
@@ -17,7 +19,9 @@ public class ListingContext {
 
 	public void setCurrentPath(String currentPath) {
 		this.currentPath = currentPath;
-		this.getEventAggregator().publish(new DirectoryChanged(currentPath));
+		
+		File[] newContent = FilesHelper.listFor(new File(currentPath));
+		this.getEventAggregator().publish(new DirectoryChanged(currentPath, newContent));
 	}
 
 	public String getRootPath() {
@@ -34,6 +38,10 @@ public class ListingContext {
 			
 			for (int i = 1; i < parts.length - 1; i++) {
 				result = result.concat("\\" + parts[i]);
+			}
+			
+			if (result.endsWith(":")) {
+				result = result + "\\";
 			}
 			
 			return result;
