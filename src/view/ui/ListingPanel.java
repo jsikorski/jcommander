@@ -1,9 +1,8 @@
 package view.ui;
 
-import infrastructure.EventAggregator;
-
 import java.awt.BorderLayout;
-import java.awt.Color;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JPanel;
 
@@ -12,14 +11,17 @@ import model.ListingContext;
 public class ListingPanel extends JPanel {
 	
 	private ListingContext listingContext;
-	private EventAggregator eventAggregator;
-
-	public ListingPanel(ListingContext listingContext, EventAggregator eventAggregator) {
+	public ListingPanel(ListingContext listingContext) {
 		this.listingContext = listingContext;
-		this.eventAggregator = eventAggregator;
-		
 		setLayout(new BorderLayout());		
 		initializeComponents();
+		
+		addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				System.out.println("AAA");
+			}
+		});
 	}
 
 	private void initializeComponents() {

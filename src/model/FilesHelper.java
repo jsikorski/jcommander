@@ -28,8 +28,4 @@ public class FilesHelper {
 		
 		return content;
 	}
-	
-	public static boolean isRoot(File file) {
-		return file.toPath().endsWith(":"); 
-	}
 }

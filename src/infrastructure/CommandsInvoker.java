@@ -17,6 +17,11 @@ public class CommandsInvoker {
 	}
 	
 	public static void execute(final Command command) {
-		command.execute();
+		try {
+			command.execute();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

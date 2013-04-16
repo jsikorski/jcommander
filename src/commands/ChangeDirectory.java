@@ -1,8 +1,6 @@
 package commands;
 
 import model.ListingContext;
-import events.DirectoryChanged;
-import infrastructure.EventAggregator;
 
 public class ChangeDirectory implements Command {
 	

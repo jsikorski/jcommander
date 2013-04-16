@@ -1,9 +1,8 @@
 package view.ui;
 
-import infrastructure.EventAggregator;
-
 import javax.swing.JSplitPane;
 
+import model.ApplicationContext;
 import model.ListingContext;
 
 public class ContentPanel extends JSplitPane {	
@@ -18,8 +17,13 @@ public class ContentPanel extends JSplitPane {
 	
 	private void initializeComponents() {
 				
-		ListingPanel left = new ListingPanel(new ListingContext(), new EventAggregator());
-		ListingPanel right = new ListingPanel(new ListingContext(), new EventAggregator());
+		ListingContext leftListingContext = new ListingContext();
+		ListingContext rightListingContext = new ListingContext();
+		
+		ListingPanel left = new ListingPanel(leftListingContext);
+		ListingPanel right = new ListingPanel(rightListingContext);
+		
+		ApplicationContext.setActiveListingContext(leftListingContext);
 		
 		add(left, JSplitPane.LEFT);
 		add(right, JSplitPane.RIGHT);
