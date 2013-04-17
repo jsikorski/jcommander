@@ -5,7 +5,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.attribute.BasicFileAttributeView;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import view.localization.Localization;
 
 public class DirectoryContentHelper {
 	public static List<Object[]> buildMapFor(File[] files) {
@@ -24,11 +27,8 @@ public class DirectoryContentHelper {
 				fileInfo[1] = file.length() / 1024;
 			}
 			
-			try {
-				fileInfo[2] = Files.getFileAttributeView(file.toPath(), BasicFileAttributeView.class).readAttributes().creationTime().toString();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			Date date = new Date(file.lastModified());
+			fileInfo[2] = date;
 			
 			result.add(fileInfo);
 		}

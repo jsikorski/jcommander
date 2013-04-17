@@ -1,7 +1,9 @@
 package view.localization;
 
 import java.lang.reflect.Method;
+import java.text.DateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Locale;
 
 public class Localization {
@@ -88,5 +90,9 @@ public class Localization {
 		catch (Exception exception) {
 			throw new IllegalArgumentException();
 		}
+	}
+	
+	public static String formatDate(Date date) {
+		return DateFormat.getDateInstance(DateFormat.LONG, context.getLocale()).format(date);
 	}
 }

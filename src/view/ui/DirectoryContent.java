@@ -6,6 +6,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Date;
+
 import javax.swing.BorderFactory;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
@@ -20,6 +22,7 @@ import view.localization.Localization;
 import model.ApplicationContext;
 import model.DirectoryContentModel;
 import model.ListingContext;
+import model.TableDateRenderer;
 
 public class DirectoryContent extends JTable implements EventHandler {
 	private ListingContext listingContext;
@@ -32,10 +35,13 @@ public class DirectoryContent extends JTable implements EventHandler {
 		setModel(directoryContentModel);
 		setShowGrid(false);
 		
+		setDefaultRenderer(Date.class, new TableDateRenderer());
+		
 		Localization.addChangeListener(new ContextChangeListener() {
 			@Override
 			public void contextChanged() {
 				directoryContentModel.fireTableStructureChanged();
+				directoryContentModel.fireTableDataChanged();
 			}
 		});
 		

@@ -6,6 +6,7 @@ import infrastructure.EventHandler;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.SwingUtilities;
@@ -20,7 +21,7 @@ import events.Event;
 
 public class DirectoryContentModel extends DefaultTableModel implements EventHandler {
 	
-	private final Class[] columnsTypes = new Class[] { String.class, Long.class, String.class };
+	private final Class[] columnsTypes = new Class[] { String.class, Long.class, Date.class };
 	
 	private List<File> content;
 	private List<Object[]> contentMap;
@@ -89,7 +90,7 @@ public class DirectoryContentModel extends DefaultTableModel implements EventHan
 	}
 
 	@Override
-	public Object getValueAt(int row, int column) {
+	public Object getValueAt(int row, int column) {		
 		return contentMap.get(row)[column];
 	}
 	
