@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -17,6 +18,7 @@ import model.ListingContext;
 import commands.Close;
 import commands.CreateDirectory;
 import commands.Delete;
+import commands.Move;
 
 import view.localization.Localization;
 
@@ -37,21 +39,24 @@ public class Footer extends JPanel {
 			}
 		};
 		
-		ActionListener moveRenameActionListener = new ActionListener() {
+		ActionListener moveActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String newName = JOptionPane.showInputDialog(
+				String destinationPath = (String) JOptionPane.showInputDialog(
 						ApplicationContext.getMainWindow(), 
-						Localization.get("Edit_Name"), 
-						Localization.get("Edit_Header"), 
-						JOptionPane.QUESTION_MESSAGE);
+						Localization.get("Move_Path"), 
+						Localization.get("Move_Header"), 
+						JOptionPane.QUESTION_MESSAGE, 
+						null, 
+						null, 
+						ApplicationContext.getNotActiveListingContext().getCurrentPath());
 				
-				if (newName == null) {
+				if (destinationPath == null) {
 					return;
 				}
 				
 				ListingContext listingContext = ApplicationContext.getActiveListingContext();
-				CommandsInvoker.invoke(new CreateDirectory(listingContext.getCurrentPath(), newName));
+				CommandsInvoker.invoke(new Move(listingContext.getSelectedFiles(), destinationPath));
 			}
 		};
 		
@@ -84,8 +89,8 @@ public class Footer extends JPanel {
 		ActionListener[] actionListeners = new ActionListener[] {
 			emptyActionListener,
 			emptyActionListener,
-			moveRenameActionListener,
 			emptyActionListener,
+			moveActionListener,
 			createDirActionListener,
 			deleteActionListener
 		};

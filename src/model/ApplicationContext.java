@@ -21,6 +21,14 @@ public class ApplicationContext {
 		return activeListingContext;
 	}
 	
+	public static ListingContext getNotActiveListingContext() {
+		if (listingContexts[0] == activeListingContext) {
+			return listingContexts[1];
+		}
+		
+		return listingContexts[0];
+	}
+	
 	public static void setActiveListingContext(ListingContext listingContext) {
 		if (listingContexts == null || !Arrays.asList(listingContexts).contains(listingContext)) {
 			throw new IllegalArgumentException();

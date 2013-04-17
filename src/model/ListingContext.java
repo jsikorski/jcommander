@@ -58,10 +58,6 @@ public class ListingContext {
 		return getCurrentPath().equals(getRootPath());
 	}
 
-	public void toggleSelectionFor(int row) {
-		// TODO Auto-generated method stub
-	}
-
 	public List<File> getSelectedFiles() {
 		return selectedFiles;
 	}

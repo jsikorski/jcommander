@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
+import org.apache.commons.io.FileUtils;
+
 import view.localization.Localization;
 
 import model.ApplicationContext;
@@ -58,7 +60,7 @@ public class Delete implements Command {
 					return;
 				}
 				
-				org.apache.commons.io.FileUtils.deleteDirectory(file);
+				FileUtils.deleteDirectory(file);
 			}
 			else {
 				file.delete();
