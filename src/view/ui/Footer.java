@@ -16,6 +16,7 @@ import model.ApplicationContext;
 import model.ListingContext;
 
 import commands.Close;
+import commands.Copy;
 import commands.CreateDirectory;
 import commands.Delete;
 import commands.Move;
@@ -36,6 +37,27 @@ public class Footer extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				
+			}
+		};
+		
+		ActionListener copyActionListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String destinationPath = (String) JOptionPane.showInputDialog(
+						ApplicationContext.getMainWindow(), 
+						Localization.get("Copy_Path"), 
+						Localization.get("Copy_Header"), 
+						JOptionPane.QUESTION_MESSAGE, 
+						null, 
+						null, 
+						ApplicationContext.getNotActiveListingContext().getCurrentPath());
+				
+				if (destinationPath == null) {
+					return;
+				}
+				
+				ListingContext listingContext = ApplicationContext.getActiveListingContext();
+				CommandsInvoker.invoke(new Copy(listingContext.getSelectedFiles(), destinationPath));
 			}
 		};
 		
@@ -89,7 +111,7 @@ public class Footer extends JPanel {
 		ActionListener[] actionListeners = new ActionListener[] {
 			emptyActionListener,
 			emptyActionListener,
-			emptyActionListener,
+			copyActionListener,
 			moveActionListener,
 			createDirActionListener,
 			deleteActionListener
