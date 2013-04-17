@@ -1,20 +1,29 @@
 package infrastructure;
 
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
+import java.awt.BorderLayout;
+import java.awt.Container;
 
-import view.localization.Localization;
+import javax.swing.BorderFactory;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JProgressBar;
+import javax.swing.SwingUtilities;
+import javax.swing.border.Border;
 
 import model.ApplicationContext;
+import view.localization.Localization;
 
 import commands.Command;
 
 public class CommandsInvoker {
 	public static void invoke(final Command command) {
+		final JFrame progressBar = createProgressBar();
 		new Thread() {
 			@Override
 			public void run() {
+				progressBar.setVisible(true);
 				execute(command);
+				progressBar.dispose();
 			}
 		}.start();
 	}
@@ -42,11 +51,31 @@ public class CommandsInvoker {
 				public void run() {
 					JOptionPane.showMessageDialog(
 							ApplicationContext.getMainWindow(), 
-							errorMessage, 
+							errorMessage,
 							title, 
 							JOptionPane.ERROR_MESSAGE);
 				}
 			});
 		}
+	}
+	
+	public static JFrame createProgressBar() {
+		JFrame frame = new JFrame(Localization.get("Common_WorkInProgress"));
+		JFrame mainWindow = ApplicationContext.getMainWindow();
+		frame.setLocation(
+				mainWindow.getLocation().x + mainWindow.getWidth() / 2 - 150, 
+				mainWindow.getLocation().y + mainWindow.getHeight() / 2 - 50);
+	    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	    Container content = frame.getContentPane();
+	    
+	    JProgressBar progressBar = new JProgressBar();
+	    progressBar.setValue(25);
+	    progressBar.setStringPainted(true);
+	    Border border = BorderFactory.createTitledBorder(Localization.get("Common_WorkInProgress"));
+	    progressBar.setBorder(border);
+	    
+	    content.add(progressBar, BorderLayout.NORTH);
+	    frame.setSize(300, 100);
+	    return frame;
 	}
 }
